@@ -1,0 +1,241 @@
+# This workflow uses actions that are not certified by GitHub.
+# They are provided by a third-party and are governed by
+# separate terms of service, privacy policy, and support
+# documentation.
+# This workflow will build a Java project with Gradle and cache/restore any dependencies to improve the workflow execution time
+# For more information see: https://docs.github.com/en/actions/automating-builds-and-tests/building-and-testing-java-with-gradle
+
+name: Java CI with Gradle
+
+on:
+  push:
+    branches: [ "main" ]
+  pull_request:
+    branches: [ "main" ]
+
+permissions:
+  contents: read
+
+jobs:
+  build:
+
+    runs-on: ubuntu-latest
+
+    steps:
+    - uses: actions/checkout@v3
+    - name: Set up JDK 11
+      uses: actions/setup-java@v3
+      with:
+        java-version: '11'
+        distribution: 'temurin'
+    - name: Build with Gradle
+      uses: gradle/gradle-build-action@bd5760595778326ba7f1441bcf7e88b49de61a25 # v2.6.0
+      with:
+        arguments: build
+public class Card
+{
+    // instance variables - replace the example below with your own
+    private String player;
+    private int year;
+
+    /**
+     * Constructor for objects of class Card
+     */
+    public Card(String player, int year)
+    {
+       setDetails(player, year);
+    }
+    
+    public String getPlayer()
+    {
+       return player; 
+    }
+    
+    public int getYear()
+    {
+       return year; 
+    }
+    
+    public String getDetails()
+    {
+        return player + " (" + year + ")";
+    }
+    
+    private void setDetails(String player, int year)
+    {
+        this.player = player;
+        this.year = year;
+    }
+}
+
+import java.util.ArrayList;
+public class CardCollection
+{
+    // instance variables - replace the example below with your own
+    private String collectorName;
+    private ArrayList<Card> cards;
+
+    /**
+     * Constructor for objects of class CardCollection
+     */
+    public CardCollection(String collectorName)
+    {// initialise instance variables
+        
+        this.collectorName = collectorName;
+       cards = new ArrayList<>();
+    }
+    
+    public String getCollectorName()
+    {
+        return collectorName;
+    }
+    
+    public ArrayList<Card> getCards()
+    {
+        return cards;
+    }
+    
+    public int getNumberOfCards()
+    {
+        return cards.size();
+    }
+    
+    public boolean indexValid(int index)
+    {
+        boolean indexValid = false;
+        if(index < 0)
+        {
+           System.out.println("Index cannot be negative: " + index); 
+        }
+        else if(index >= cards.size())
+        {
+            System.out.println("Index is too large: " + index);
+        }
+        else
+        {
+            indexValid = true;
+        }
+        return indexValid;
+    }
+    
+    public void addCard(Card card)
+    {
+        if(card != null)
+        {
+            cards.add(card);
+            System.out.println("Added card: " + card.getDetails());
+        }
+        else
+        {
+            System.out.println("Invalid card cannot be added");
+        }
+    }
+    
+    public void removeCard(int index)
+    {
+        if(indexValid(index) == true)
+        {
+            System.out.println("Removed card: " + cards.remove(index).getDetails());
+        }
+        else
+        {
+            System.out.println("No card to remove at index: " + index);
+        }
+    }
+    
+    public void listCard(int index)
+    {
+        if(indexValid(index) == true)
+        {
+            System.out.println("Card " + index + ": " + cards.get(index).getDetails());
+        }
+        else
+        {
+            System.out.println("Invalid index: " + index); 
+        }
+    }
+    
+    public void listAllCards()
+    {
+       if(cards.isEmpty() == true)
+       {
+           System.out.println("There are no cards to print");
+       }
+       else
+       {
+           System.out.println("Card Listing:"); 
+           for(Card card : cards)
+           {
+               System.out.println(card.getDetails());
+           }
+       }
+    }
+    
+    public void listByName(String player)
+    {
+        boolean found = false;
+        for(Card card : cards)
+        {
+            if(card.getPlayer().toLowerCase().contains(player.toLowerCase()))
+            {
+                System.out.println(card.getDetails());
+                found = true;
+            }
+        }
+        
+        if(!found)
+        {
+            System.out.println("No card foung for player: " + player);
+        }
+    }
+    
+    public void listByYear(int year)
+    {
+        boolean found = false;
+        for(Card card : cards)
+        {
+            if(card.getYear() == year)
+            {
+                System.out.println(card.getDetails());
+                found = true;
+            }
+        }
+        
+        if(!found)
+        {
+            System.out.println("No card found for year: " + year);
+        }
+    }
+    
+    public int findFirstOfPlayer(String searchString)
+    {
+        int index = 0;
+        boolean searching = true;
+        while(searching == true && index < cards.size())
+        {
+            for(Card card : cards)
+            {
+                if(card.getPlayer().toLowerCase().contains(searchString.toLowerCase()))
+                {
+                    searching = false;
+                }
+                else
+                {
+                    index++;
+                }
+            }
+            
+            if(searching == true)
+            {
+                System.out.println("No player card for: " + searchString);
+                index = -1;
+            }
+            else
+            {
+                System.out.println("Player card for " + searchString + " at index " + index);
+            }
+        }
+        return index;
+    }
+    
+}
